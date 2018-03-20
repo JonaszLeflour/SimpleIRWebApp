@@ -1,6 +1,6 @@
 //------- Send positional data (X, Y, Z + Rotation(Z)) to the Seller - PlayCanvast -------
 
-var serverIR = "52.234.227.182";
+var serverIR = "imretest.eastus.cloudapp.azure.com";
 var port = "3000";
 var cursorData = {X:100.0, Y:100.0, Rot:0.0}
 
@@ -19,9 +19,9 @@ mapBackGround.src = 'ressources/img/E1602_minimap_02.jpg';
 
 
 function updateCursor(vrData){
-	cursorData.X = -(data.Y);
-	cursorData.Y = data.X;
-	cursorData.Rot = (data.RotZ)-180;
+	cursorData.X = -(vrData.Y);
+	cursorData.Y = vrData.X;
+	cursorData.Rot = (vrData.RotZ)-180;
 }
 
 
@@ -30,11 +30,18 @@ function draw(){
 	var ctx = canvas.getContext("2d");
 	ctx.canvas.width  = window.innerWidth;
 	ctx.canvas.height = window.innerHeight;
+	ratio = mapBackGround.width / mapBackGround.height;
+	width = ctx.canvas.width;
+	height = width / ratio;
+	if (height > ctx.canvas.height) {
+		height = ctx.canvas.height;
+		width = height * ratio;
+	}
 	if(imgLoaded){
-		ctx.drawImage(mapBackGround,0,0);
-		ctx.drawImage(mapBackGround, 0, 0, 
-			mapBackGround.width, mapBackGround.height,
-            0, 0, canvas.width, canvas.height);
+		ctx.drawImage(mapBackGround,0,0,width,height);
+		/*ctx.drawImage(mapBackGround, 0, 0,
+			width, height,
+            0, 0, canvas.width, canvas.height);*/
 	}
 	ctx.fillStyle="#FFFFFF";
 	ctx.strokeStyle="#000000";
@@ -54,11 +61,11 @@ function draw(){
 //revieve data
 //update position with vr info every second
 window.setInterval(function(){
-	/*$.get( "http://"+serverIR+":"+port+"/client-infos", function( vrData ) {
+	$.get( "http://"+serverIR+":"+port+"/client-infos", function( vrData ) {
 			console.log(vrData);
 			updateCursor(vrData);
 			
-		});*/
+		});
 		draw();
 }, 1000);
 

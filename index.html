@@ -1,12 +1,182 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Min Map Client</title>
-		<script src="js/jquery-3.3.1.min.js"></script>
-	</head>
-	<body>
-		<h1>Map</h1>
-		<canvas id="mapCanvas" alt="Appartment map from above" />
-	</body>
-	<script language="JavaScript" src="js/script.js"></script>
-</html>
+<!-- saved from url=(0042)http://babyfruit.no/jobb/impact/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Impact Reality</title>
+    <link rel="stylesheet" href="./Untitled Document_files/bootstrap.min.css" >
+    <link rel="stylesheet" href="./Untitled Document_files/main.css">
+	<script src="js/jquery-3.3.1.min.js"></script>
+  <style></style></head>
+
+  <body>
+
+    <div id="wrapper">
+        <div id="header">
+            <img class="logo" src="./Untitled Document_files/logo-long.png">
+            <img class="logout" src="./Untitled Document_files/power.svg">
+        </div>
+            <div id="main">
+                <div id="content">
+                    <div class="textblock">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis orci non purus viverra, quis convallis odio convallis.
+                        </p>
+                            <div class="dropdown dropdown-long">
+                                <label for="prosjekt"><h4>Prosjekt:</h4></label>
+                                <select>
+                                    <option value="prosjekt1">Prosjekt 1</option>
+                                    <option value="prosjekt2">Prosjekt 2</option>
+                                    <option value="prosjekt3">Prosjekt 3</option>
+                                </select>
+                            </div>
+   
+                            <div id="accordions">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                  <label class="btn btn-secondary active" data-toggle="collapse" data-target="#collapseInterior" aria-expanded="true" aria-controls="collapseInterior">
+                                    <input type="radio" name="options" id="option1" autocomplete="off">Interiør
+                                  </label>
+                                  <label class="btn btn-secondary collapsed" data-toggle="collapse" data-target="#collapseExterior" aria-expanded="false" aria-controls="collapseExterior">
+                                    <input type="radio" name="options" id="option2" autocomplete="off">Eksteriør
+                                  </label>
+                                </div>
+                                
+                                
+                                <!-- INTERIOR -->
+                                
+                                
+                                <div class="collapse show" id="collapseInterior" data-parent="#accordions" style="">
+                                    <div class="card card-body"> <!-- CONTENT START -->
+                                        <h2>Interiør    </h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis orci non purus viverra, quis convallis odio convallis.</p>
+                                        <div class="dropdown dropdown-long">
+                                            <label for="prosjekt"><h4>Enhet:</h4></label>
+                                            <select>
+                                                <option value="option1">Valg 1</option>
+                                                <option value="option2">Valg 2</option>
+                                                <option value="option3">Valg 3</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="floorplan">
+                                            <div class="floorplan-img">
+												<!--<img src="./Untitled Document_files/floorplan2.png">-->
+												<canvas id="mapCanvas" alt="Appartment map from above" />
+											</div>
+                                            <!--<div class="floorplan-img" class="floorplan-floors">
+                                                <div class="floorplan-select">Floor 1</div>
+                                                <div class="floorplan-select">Floor 2</div>
+                                                <div class="floorplan-select">Floor 3</div>
+                                            </div>-->
+                                            <div class="floorplan-floors-v2">
+                                                <div class="floorplan-select-v2">Floor 1</div>
+                                                <div class="floorplan-select-v2">Floor 2</div>
+                                                <div class="floorplan-select-v2">Floor 3</div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="forms">
+                                            <div class="dropdown dropdown-short">
+                                                <label for="prosjekt"><h4>Floor:</h4></label>
+                                                <select id="options1">
+                                                    <option value="Floor-OakVanilla">Oak Vanilla</option>
+                                                    <option value="Floor-OakShadowGrey">Oak Shadow Grey</option>
+                                                    <option value="Floor-OakNature">Oak Nature</option>
+                                                </select>
+                                            </div>
+                                            <div class="dropdown dropdown-short">
+                                                <label for="prosjekt"><h4>Vegg:</h4></label>
+                                                <select id="options2">
+                                                    <option value="option1">Valg 1</option>
+                                                    <option value="option2">Valg 2</option>
+                                                    <option value="option3">Valg 3</option>
+													<option value="option4">Valg 4</option>
+                                                </select>
+                                            </div>
+                                            <div class="dropdown dropdown-short">
+                                                <label for="prosjekt"><h4>Vegg:</h4></label>
+                                                <select id="options3">
+                                                    <option value="option1">Valg 1</option>
+                                                    <option value="option2">Valg 2</option>
+                                                    <option value="option3">Valg 3</option>
+													<option value="option4">Valg 4</option>
+                                                </select>
+                                            </div>
+                                            <div class="dropdown dropdown-short">
+                                                <label for="prosjekt"><h4>Vegg:</h4></label>
+                                                <select id="options4">
+                                                    <option value="option1">Valg 1</option>
+                                                    <option value="option2">Valg 2</option>
+                                                    <option value="option3">Valg 3</option>
+													<option value="option4">Valg 4</option>
+                                                </select>
+                                            </div>
+                                            <button id="interiorOptionsSubmit" type="button" class="btn btn-primary">Utfør</button>
+                                        </div>
+                                    </div> <!-- CONTENT END -->
+                                    
+                                </div>
+                                
+                                
+                                
+                                
+                                
+                                
+                                <!-- EXTERIOR -->
+                                
+                                
+                                <div class="collapse" id="collapseExterior" data-parent="#accordions" style="">
+                                  <div class="card card-body">
+                                    <h2>Eksteriør</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis orci non purus viverra, quis convallis odio convallis.</p>
+                                        <div class="dropdown dropdown-long">
+                                            <label for="prosjekt"><h4>Enhet:</h4></label>
+                                            <select>
+                                                <option value="option1">Valg 1</option>
+                                                <option value="option2">Valg 2</option>
+                                                <option value="option3">Valg 3</option>
+                                            </select>
+                                        </div>
+                                    
+                                        
+                                        
+                                        <div class="forms">
+                                            <div class="dropdown dropdown-short">
+                                                <label for="prosjekt"><h4>Måned:</h4></label>
+                                                <select>
+                                                    <option value="option1">Valg 1</option>
+                                                    <option value="option2">Valg 2</option>
+                                                    <option value="option3">Valg 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="dropdown dropdown-short">
+                                                <label for="prosjekt"><h4>Klokkeslett:</h4></label>
+                                                <select>
+                                                    <option value="option1">Valg 1</option>
+                                                    <option value="option2">Valg 2</option>
+                                                    <option value="option3">Valg 3</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-primary">Utfør</button>
+                                        </div>
+                                  </div>
+                                </div>
+                            </div>
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+
+<!--<script src="./Untitled Document_files/jquery-3.2.1.slim.min.js" ></script>-->
+<script src="./Untitled Document_files/popper.min.js"></script>
+<script src="./Untitled Document_files/bootstrap.min.js" ></script>
+<script language="JavaScript" src="js/script.js"></script>
+      
+  
+
+</body></html>

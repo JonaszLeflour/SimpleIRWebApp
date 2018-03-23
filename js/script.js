@@ -16,11 +16,43 @@ var imgLoaded = false;
 mapBackGround.onload = function () {imgLoaded = true;}
 mapBackGround.src = 'ressources/img/E1602_minimap_02.jpg';
 
+function normalized2DToVr(x, y){
+	scaleX = -100;
+	scaleY = 1000;
+	transformX = 0;
+	transformY = 1200;
+	
+	x = (x-0.5) * 2;
+	y = (y-0.5) * 2;
+	
+	
+	X = scaleX * y + transformX;
+	Y = scaleY * x + transformY;
+	
+	return [X, Y];
+}
 
+//ok for canvas ~= 890x943
+function vrToNormalized2D(X,Y,Z=0){
+	scaleX = -0.03;
+	scaleY = 0.034;
+	transformX = 0.427;
+	transformY = 0.508;
+	
+	x = scaleX * Y + transformX;
+	y = scaleY * X + transformY;
+	
+	return [x, y]
+}
 
 function updateCursor(vrData){
-	cursorData.X = -(vrData.Y);
-	cursorData.Y = vrData.X;
+	cursorPos = vrToNormalized2D(vrData.X,vrData.Y);
+	
+	scaling=1;
+	if(ctx.canvas.height > ctx.canvas.width){scaling=ctx.canvas.width;}else{scaling=ctx.canvas.height;}
+	
+	cursorData.X = cursorPos[0] * scaling;
+	cursorData.Y = cursorPos[1] * scaling;
 	cursorData.Rot = (vrData.RotZ)-180;
 }
 
@@ -37,11 +69,13 @@ function draw(){
 		height = ctx.canvas.height;
 		width = height * ratio;
 	}
+	//quick fix for small width:
+	if(ctx.canvas.height > ctx.canvas.width * (1/ratio)){
+		ctx.canvas.height = ctx.canvas.width * (1/ratio);
+	}
+	
 	if(imgLoaded){
 		ctx.drawImage(mapBackGround,0,0,width,height);
-		/*ctx.drawImage(mapBackGround, 0, 0,
-			width, height,
-            0, 0, canvas.width, canvas.height);*/
 	}
 	ctx.fillStyle="#FFFFFF";
 	ctx.strokeStyle="#000000";
@@ -62,7 +96,7 @@ function draw(){
 //update position with vr info every second
 window.setInterval(function(){
 	$.get( "http://"+serverIR+":"+port+"/client-infos", function( vrData ) {
-			console.log(vrData);
+			//console.log(vrData);
 			updateCursor(vrData);
 			
 		});
@@ -70,12 +104,24 @@ window.setInterval(function(){
 }, 1000);
 
 
+
 function teleport(event){
+	var canvasRect = canvas.getBoundingClientRect();
+	relativeX = (event.clientX - canvasRect.left) / (canvasRect.right - canvasRect.left);
+	relativeY = (event.clientY - canvasRect.top) / (canvasRect.top - canvasRect.bottom);
+	
+	//piano : X= -1.376, Y= -1.06, Z= 0.863 //image -> X=300, Y=1000
+	//balcony : X=-0.887, Y=9.404, Z=0.851  //image -> X=1000, Y=900
+	//
+	//img size X=Y=2048
+	
+	vrPosXY = normalized2DToVr(relativeX,relativeY);
+	
 	var data = {
 		command: "Teleport", // this is the variable to check in unreal when getting the command from server
-        x: event.clientX,
-        y: 0,
-        z: event.clientY,
+        x: vrPosXY[0],
+        y: vrPosXY[1],
+        z: 10,
         rotation: cursorData.Rot
     };
 	$.ajax({
@@ -89,6 +135,34 @@ function teleport(event){
 canvas.addEventListener('click', teleport);
 
 
+
+function changeStyle(){
+	optionSelector1 = document.getElementById("options1");
+	optionSelector2 = document.getElementById("options2");
+	optionSelector3 = document.getElementById("options3");
+	optionSelector4 = document.getElementById("options4");
+	
+	var options = ""+optionSelector1.options[optionSelector1.selectedIndex].value+","
+		+ optionSelector2.options[optionSelector2.selectedIndex].value+","
+		+ optionSelector3.options[optionSelector3.selectedIndex].value+","
+		+ optionSelector4.options[optionSelector4.selectedIndex].value
+	
+	
+	var data = {
+		command: "ChangeStyle",
+		options: options
+	}
+	console.log(data);
+	$.ajax({
+		type: "POST",
+		url: "http://"+serverIR+":"+port+"/seller",
+		data: data,
+		dataType: "JSON"
+	});
+}
+
+interiorSubmitButton = document.getElementById("interiorOptionsSubmit");
+interiorSubmitButton.addEventListener('click',changeStyle);
 
 
 // update code called every frame
@@ -112,7 +186,6 @@ canvas.addEventListener('click', teleport);
             self.entity.setRotation(quat.invert());
         });
     }
-    
 };*/
 
 

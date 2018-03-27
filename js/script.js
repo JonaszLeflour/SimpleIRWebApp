@@ -137,10 +137,10 @@ canvas.addEventListener('click', teleport);
 
 
 function changeStyle(){
-	optionSelector1 = document.getElementById("options1");
-	optionSelector2 = document.getElementById("options2");
-	optionSelector3 = document.getElementById("options3");
-	optionSelector4 = document.getElementById("options4");
+	optionSelector1 = document.getElementById("options_floor");
+	optionSelector2 = document.getElementById("options_wall");
+	optionSelector3 = document.getElementById("options_kitchenbench");
+	optionSelector4 = document.getElementById("options_kitchenfront");
 	
 	var options = ""+optionSelector1.options[optionSelector1.selectedIndex].value+","
 		+ optionSelector2.options[optionSelector2.selectedIndex].value+","

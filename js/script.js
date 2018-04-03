@@ -4,7 +4,7 @@ var serverIR = "imretest.eastus.cloudapp.azure.com";
 var port = "3000";
 var cursorData = {X:100.0, Y:100.0, Rot:0.0}
 
-
+var appID;
 
 var canvas = document.getElementById('mapCanvas');
 var ctx = canvas.getContext("2d");
@@ -95,12 +95,24 @@ function draw(){
 //revieve data
 //update position with vr info every second
 window.setInterval(function(){
-	$.get( "http://"+serverIR+":"+port+"/client-infos", function( vrData ) {
+	if(typeof appID == "undefined"){
+		return;
+	}
+	var data = {appid: appID}
+	$.ajax({
+		type: "GET",
+		url: "http://"+serverIR+":"+port+"/client-infos",
+		data: data,
+		dataType: "JSON",
+		success : function(vrData){updateCursor(vrData);draw();}
+	});
+	
+	/*$.get( "http://"+serverIR+":"+port+"/client-infos", function( vrData ) {
 			//console.log(vrData);
 			updateCursor(vrData);
 			
 		});
-		draw();
+		draw();*/
 }, 1000);
 
 
@@ -122,7 +134,8 @@ function teleport(event){
         x: vrPosXY[0],
         y: vrPosXY[1],
         z: 10,
-        rotation: cursorData.Rot
+        rotation: cursorData.Rot,
+		appid: appID
     };
 	$.ajax({
 		type: "POST",
@@ -134,7 +147,14 @@ function teleport(event){
 
 canvas.addEventListener('click', teleport);
 
-
+function getVRAppsAddresses(){
+	$.get( "http://"+serverIR+":"+port+"/clients-list", function( data ) {
+			document.getElementById("iplist").innerHTML = data;
+			appID = data[0];
+			console.log(appID);
+		});
+}
+getVRAppsAddresses();
 
 function changeStyle(){
 	optionSelector1 = document.getElementById("options_floor");
@@ -150,7 +170,8 @@ function changeStyle(){
 	
 	var data = {
 		command: "ChangeStyle",
-		options: options
+		options: options,
+		appid: JSON.strinify(appID)
 	}
 	console.log(data);
 	$.ajax({

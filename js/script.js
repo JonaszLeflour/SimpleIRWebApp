@@ -95,17 +95,28 @@ function draw(){
 //revieve data
 //update position with vr info every second
 window.setInterval(function(){
-	if(typeof appID == "undefined"){
+	if(typeof(appID) == "undefined"){
 		return;
 	}
 	var data = {appid: appID}
+	/*$.get( "http://"+serverIR+":"+port+"/client-infos", data, function(vrData){updateCursor(vrData);});*/
 	$.ajax({
+		url: "http://"+serverIR+":"+port+"/get-client-infos",
+		type: "POST",
+		crossDomain: true,
+		data: data,
+		dataType: "json",
+		success: function(vrData){updateCursor(vrData);}
+	});
+	draw();
+	/*$.ajax({
 		type: "GET",
 		url: "http://"+serverIR+":"+port+"/client-infos",
 		data: data,
 		dataType: "JSON",
 		success : function(vrData){updateCursor(vrData);draw();}
-	});
+	});*/
+	
 	
 	/*$.get( "http://"+serverIR+":"+port+"/client-infos", function( vrData ) {
 			//console.log(vrData);
@@ -147,14 +158,34 @@ function teleport(event){
 
 canvas.addEventListener('click', teleport);
 
+
+
 function getVRAppsAddresses(){
 	$.get( "http://"+serverIR+":"+port+"/clients-list", function( data ) {
-			document.getElementById("iplist").innerHTML = data;
-			appID = data[0];
+			
+			var vrDropdownList = document.getElementById("vrDropdownList");
+			
+			//appID = data[0];
+			//document.getElementById("iplist").innerHTML = data;
+			
+			for(let appNumber of data){
+				let option = document.createElement("option");
+				option.text = appNumber;
+				option.setAttribute("value", appNumber);
+				vrDropdownList.add(option);
+			}
 			console.log(appID);
 		});
 }
 getVRAppsAddresses();
+
+function setAppID(){
+	var vrDropdownList = document.getElementById("vrDropdownList");
+	appID = vrDropdownList.options[vrDropdownList.selectedIndex].value;
+}
+document.getElementById("vrDropdownListSubmit").addEventListener('click', setAppID);
+
+
 
 function changeStyle(){
 	optionSelector1 = document.getElementById("options_floor");
@@ -186,77 +217,8 @@ interiorSubmitButton = document.getElementById("interiorOptionsSubmit");
 interiorSubmitButton.addEventListener('click',changeStyle);
 
 
-// update code called every frame
-/*Sfasaf.prototype.update = function(dt) {
-    if(currentDelay === 0 ) {
-        currentDelay = Date.now();
-    }
-    
-    var self = this;
-    
-    if(Date.now() > delay + currentDelay) {
-        console.log('run script');
-        
-        currentDelay = 0;
-        
-        $.get( "http://"+serverIR+":"+port+"/client-infos", function( data ) { //"http://localhost:3000/client-infos" https://aqueous-plateau-58732.herokuapp.com/client-infos
-          console.log(data);
-            var quat = new pc.Quat().setFromEulerAngles(0, (data.RotZ)-180, 0);
-            
-            self.entity.setPosition(-(data.Y), 0, data.X);
-            self.entity.setRotation(quat.invert());
-        });
-    }
-};*/
-
-
-//------- On Click mouse to teleport VR character (Send data to Client UE4) -------
-
-
-
-// initialize code called once per entity
-
-
-/*ClickTeleport.prototype.initialize = function() {
-    
-    this.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
-};*/
-
-
-
-/*PickerFramebuffer.prototype = {
-        // Called once after all resources are loaded and before the first update
-        initialize: function () {
-            app.mouse.on(pc.input.EVENT_MOUSEDOWN, this.onSelect, this);
-        },*/
 
 
 
 
-/*ClickTeleport.prototype.onMouseDown = function (event) {
-    
-    console.log(event);
-    
-    // If the left mouse button is pressed, change the cube color to red
-    if (event.button === pc.MOUSEBUTTON_LEFT) {
-        // this.entity.model.meshInstances[0].material = this.redMaterial.resource;
-        console.log('clicked this');
-        
-        // this whole object will be returned when polling commands from unreal
 
-         var data = {
-            command: "Teleport", // this is the variable to check in unreal when getting the command from server
-            x: this.x,
-            y: this.y,
-            z: this.z,
-            rotation: this.rotation
-        };
-        
-        $.ajax({
-            type: "POST",
-            url: "http://"+serverIR+":"+port+"/seller",
-            data: data,
-            dataType: "JSON" 
-        });
-    }
-};*/
